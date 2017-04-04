@@ -5,5 +5,11 @@
   "main": "server.js",
   "repository": "git@github.com:mkalygin/vuecomp.git",
   "author": "Michael Kalygin <michael.kalygin@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "harmonica": "^1.2.2",
+    "koa": "next",
+    "koa-convert": "^1.2.0",
+    "koa-static": "^3.0.0"
+  }
 }
