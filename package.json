@@ -1,0 +1,9 @@
+{
+  "name": "vuecomp",
+  "version": "1.0.0",
+  "description": "Comparison of Vue.js with Backbone.js and other frameworks.",
+  "main": "server.js",
+  "repository": "git@github.com:mkalygin/vuecomp.git",
+  "author": "Michael Kalygin <michael.kalygin@gmail.com>",
+  "license": "MIT"
+}
