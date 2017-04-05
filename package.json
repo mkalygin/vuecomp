@@ -10,6 +10,7 @@
     "harmonica": "^1.2.2",
     "koa": "next",
     "koa-convert": "^1.2.0",
+    "koa-router": "next",
     "koa-static": "^3.0.0"
   }
 }

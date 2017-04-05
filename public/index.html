@@ -1,15 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Vue.js Tech Talk</title>
+  <title>jQuery Sample</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div class="btn-group">
-    <a class="btn btn-primary" href="backbone.html">Backbone.js</a>
-    <a class="btn btn-primary" href="vue.html">Vue.js</a>
-    <a class="btn btn-primary" href="react.html">React.js</a>
-    <a class="btn btn-primary" href="angular.html">Angular.js</a>
+  <div class="container">
+    <nav class="row">
+      <div class="btn-group">
+        <a class="btn btn-primary" href="index.html">jQuery</a>
+        <a class="btn btn-primary" href="backbone.html">Backbone</a>
+        <a class="btn btn-primary" href="vue.html">Vue</a>
+        <a class="btn btn-primary" href="react.html">React</a>
+        <a class="btn btn-primary" href="angular.html">Angular</a>
+      </div>
+    </nav>
+
+    <main class="row">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <caption>
+            <h6 class="header-count">
+              Total rows: <span class="count"></span>
+            </h6>
+            <a class="button-add btn btn-sm btn-success" href="javascript:void()">
+              <i class="fa fa-plus-square"></i> Add New
+            </a>
+          </caption>
+          <thead>
+            <tr>
+              <th class="col-xs-3">First Name</th>
+              <th class="col-xs-3">Last Name</th>
+              <th class="col-xs-5">Full Name</th>
+              <th class="col-xs-1">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </main>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+
+  <script>
+    $(() => {
+      const $tbody     = $('tbody');
+      const $count     = $('.header-count .count');
+      const $addButton = $('.button-add');
+
+      // Renders total count of devs in the table.
+      function renderCount() {
+        const count = $tbody.children().length;
+
+        $count.text(count);
+      }
+
+      // Renders row for a dev.
+      function renderTableRow({ firstname, lastname }) {
+        const fullname = `${firstname} ${lastname}`;
+
+        const html = `
+          <td class="firstname" contenteditable="true">${firstname}</td>
+          <td class="lastname" contenteditable="true">${lastname}</td>
+          <td class="fullname">${fullname}</td>
+          <td class="action">
+            <a class="button-remove btn btn-sm btn-danger" href="javascript:void()">
+              <i class="fa fa-minus-square"></i> Remove
+            </a>
+          </td>
+        `;
+
+        const $tr           = $('<tr>').html(html);
+        const $removeButton = $tr.find('.button-remove');
+
+        // Remove row.
+        $removeButton.click(() => {
+          $tr.off().remove();
+          renderCount();
+        });
+
+        // Fullname binding.
+        $tr.on('input', () => {
+          const $firstname = $tr.find('.firstname');
+          const $lastname  = $tr.find('.lastname');
+          const $fullname  = $tr.find('.fullname');
+
+          $fullname.text(`${$firstname.text()} ${$lastname.text()}`);
+        });
+
+        $tbody.append($tr);
+      }
+
+      // Add row.
+      $addButton.click(() => {
+        const firstname = faker.name.firstName();
+        const lastname  = faker.name.lastName();
+
+        renderTableRow({ firstname, lastname });
+        renderCount();
+      });
+
+      // Get data from API.
+      $.getJSON('/api/devs').done((data) => {
+        data.forEach(renderTableRow);
+        renderCount();
+      });
+    });
+  </script>
 </body>
 </html>

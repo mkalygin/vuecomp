@@ -1,0 +1,12 @@
+caption {
+  caption-side: top;
+}
+
+caption .button-add {
+  display: inline-block;
+  float: right;
+}
+
+caption .header-count {
+  display: inline-block;
+}
