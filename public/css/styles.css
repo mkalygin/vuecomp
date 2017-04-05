@@ -1,3 +1,7 @@
+template {
+  display: none;
+}
+
 caption {
   caption-side: top;
 }
