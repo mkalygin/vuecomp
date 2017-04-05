@@ -6,6 +6,9 @@
   "repository": "git@github.com:mkalygin/vuecomp.git",
   "author": "Michael Kalygin <michael.kalygin@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "harmonica": "^1.2.2",
     "koa": "next",
