@@ -18,45 +18,47 @@
       </div>
     </nav>
 
-    <template id="table">
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <caption>
-            <h6 class="header-count">
-              Total rows: <span class="count"></span>
-            </h6>
-            <a class="button-add btn btn-sm btn-success" href="javascript:void(0)">
-              <i class="fa fa-plus-square"></i> Add New
-            </a>
-          </caption>
-          <thead>
-            <tr>
-              <th class="col-xs-3">First Name</th>
-              <th class="col-xs-3">Last Name</th>
-              <th class="col-xs-5">Full Name</th>
-              <th class="col-xs-1">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-    </template>
-
-    <template id="row">
-      <td class="firstname" contenteditable="true"></td>
-      <td class="lastname" contenteditable="true"></td>
-      <td class="fullname"></td>
-      <td class="action">
-        <a class="button-remove btn btn-sm btn-danger" href="javascript:void(0)">
-          <i class="fa fa-minus-square"></i> Remove
-        </a>
-      </td>
-    </template>
-
     <main class="row">
     </main>
   </div>
+
+  <!-- Template for table. -->
+  <script type="text/x-template" id="table">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <caption>
+          <h6 class="header-count">
+            Total rows: <span class="count"></span>
+          </h6>
+          <a class="button-add btn btn-sm btn-success" href="javascript:void(0)">
+            <i class="fa fa-plus-square"></i> Add New
+          </a>
+        </caption>
+        <thead>
+          <tr>
+            <th class="col-xs-3">First Name</th>
+            <th class="col-xs-3">Last Name</th>
+            <th class="col-xs-5">Full Name</th>
+            <th class="col-xs-1">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </script>
+
+  <!-- Template for table row. -->
+  <script type="text/x-template" id="row">
+    <td class="firstname" contenteditable="true"></td>
+    <td class="lastname" contenteditable="true"></td>
+    <td class="fullname"></td>
+    <td class="action">
+      <a class="button-remove btn btn-sm btn-danger" href="javascript:void(0)">
+        <i class="fa fa-minus-square"></i> Remove
+      </a>
+    </td>
+  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -82,7 +84,7 @@
 
       const DevRowView = Backbone.View.extend({
         tagName:  'tr',
-        template: _.template($('template#row').html()),
+        template: _.template($('#row').html()),
 
         events: {
           'click .button-remove': 'onButtonRemoveClick'
@@ -115,7 +117,7 @@
       });
 
       const DevsTableView = Backbone.View.extend({
-        template: _.template($('template#table').html()),
+        template: _.template($('#table').html()),
 
         events: {
           'click .button-add': 'onButtonAddClick'

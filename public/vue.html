@@ -3,6 +3,8 @@
 <head>
   <title>Vue Sample</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <div class="container">
@@ -17,8 +19,124 @@
     </nav>
 
     <main class="row">
-      Vue
     </main>
   </div>
+
+  <script type="text/x-template" id="table">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <caption>
+          <h6 class="header-count">
+            Total rows: <span class="count">{{ devs.length }}</span>
+          </h6>
+          <a class="button-add btn btn-sm btn-success" href="javascript:void(0)" @click="add">
+            <i class="fa fa-plus-square"></i> Add New
+          </a>
+        </caption>
+        <thead>
+          <tr>
+            <th class="col-xs-3">First Name</th>
+            <th class="col-xs-3">Last Name</th>
+            <th class="col-xs-5">Full Name</th>
+            <th class="col-xs-1">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <dev-row v-for="(dev, index) in devs"
+                  :dev="dev"
+                  :key="dev.lastname"
+                  @remove="remove(dev)">
+          </dev-row>
+        </tbody>
+      </table>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="row">
+    <tr>
+      <!-- Use @input since v-model doesn't work for contenteditable. -->
+      <td class="firstname" contenteditable="true" @input="updateFirstName">{{ firstname }}</td>
+      <td class="lastname" contenteditable="true" @input="updateLastName">{{ lastname }}</td>
+      <td class="fullname">{{ fullname }}</td>
+      <td class="action">
+        <a class="button-remove btn btn-sm btn-danger" href="javascript:void(0)" @click="remove">
+          <i class="fa fa-minus-square"></i> Remove
+        </a>
+      </td>
+    </tr>
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+
+  <script>
+    Vue.component('dev-row', {
+      template: '#row',
+
+      props: {
+        dev: {
+          firstname: String,
+          lastname:  String
+        }
+      },
+
+      data() {
+        return {
+          firstname: this.dev.firstname,
+          lastname:  this.dev.lastname
+        };
+      },
+
+      computed: {
+        fullname() {
+          return `${this.firstname} ${this.lastname}`;
+        }
+      },
+
+      methods: {
+        updateFirstName({ target }) {
+          this.firstname = target.innerText;
+        },
+
+        updateLastName({ target }) {
+          this.lastname = target.innerText;
+        },
+
+        remove() {
+          this.$emit('remove');
+        }
+      }
+    });
+
+    new Vue({
+      el:       'main',
+      template: '#table',
+
+      data: {
+        devs: []
+      },
+
+      mounted() {
+        $.getJSON('/api/devs').done((devs) => {
+          this.devs = devs;
+        });
+      },
+
+      methods: {
+        add() {
+          this.devs.push({
+            firstname: faker.name.firstName(),
+            lastname:  faker.name.lastName()
+          });
+        },
+
+        remove(dev) {
+          const index = this.devs.indexOf(dev);
+          this.devs.splice(index, 1);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
